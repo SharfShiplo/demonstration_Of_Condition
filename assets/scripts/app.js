@@ -24,45 +24,34 @@ function writeToLog(identifier, previousResult, operationNumber, newResult) {
     console.log(logEntries)
 }
 
-function calculateResult(calculationType){
-    if(calculationType === "ADD" && calculationType !== "SUBTRACT" && calculationType !== "MULTIPLY" && calculationType !== "DIVIDE") return;
+function calculateResult(calculationType) {
+    if (calculationType !== "ADD" && calculationType !== "SUBTRACT" && calculationType !== "MULTIPLY" && calculationType !== "DIVIDE") return;
     let newValue = getUserNumberInput();
     const initialValue = currentResult;
     let mathOperation;
-    if(calculationType === "ADD"){
-        currentResult += newValue;
-        mathOperation = "+"
-    } else if (calculationType === "SUBTRACT"){
-        currentResult -= newValue;
-        mathOperation = "-"
-    } else if (calculationType === "MULTIPLY"){
-        currentResult *= newValue;
-        mathOperation = "*"
-    } else if (calculationType === "DIVIDE"){
-        currentResult /= newValue;
-        mathOperation = "/"
+    switch (calculationType) {
+        case "ADD":
+            currentResult += newValue;
+            mathOperation = "+";
+            break;
+        case "SUBTRACT":
+            currentResult -= newValue;
+            mathOperation = "-";
+            break;
+        case "MULTIPLY":
+            currentResult *= newValue;
+            mathOperation = "*";
+            break;
+        case "DIVIDE":
+            currentResult /= newValue;
+            mathOperation = "/";
+            break;
     }
     createAndWirteOutput(mathOperation, initialValue, newValue);
     writeToLog(calculationType, initialValue, newValue, currentResult)
 }
 
-function add() {
-    calculateResult("ADD")
-}
-
-function subtract(){
-    calculateResult("SUBTRACT")
-}
-
-function multiply() {
-    calculateResult("MULTIPLY")
-}
-
-function divide() {
-    calculateResult("DIVIDE")
-}
-
-addBtn.addEventListener('click', add)
-subtractBtn.addEventListener('click', subtract)
-multiplyBtn.addEventListener('click', multiply)
-divideBtn.addEventListener('click', divide)
+addBtn.addEventListener('click', calculateResult.bind(this, "ADD"));
+subtractBtn.addEventListener('click', calculateResult.bind(this, "SUBTRACT"))
+multiplyBtn.addEventListener('click', calculateResult.bind(this, "MULTIPLY"))
+divideBtn.addEventListener('click', calculateResult.bind(this, "DIVIDE"))
